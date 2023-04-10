@@ -435,14 +435,17 @@ patch_version() {
   pnpm setup &>/dev/null
   source ~/.bashrc
 
+  local npm_registry=""
+
   if [[ $PipMirror ]]; then
     pip3 config set global.index-url $PipMirror
   fi
   if [[ $NpmMirror ]]; then
     pnpm config set registry $NpmMirror
+    npm_registry="$NpmMirror"
   fi
 
-  pnpm install -g
+  pnpm install -g $npm_registry
 
   if [[ -f "$dir_root/db/cookie.db" ]]; then
     echo -e "检测到旧的db文件，拷贝为新db...\n"
@@ -451,7 +454,7 @@ patch_version() {
     echo
   fi
 
-  pnpm add -g pm2 tsx
+  pnpm add -g pm2 tsx $npm_registry
 
   git config --global pull.rebase false
 
