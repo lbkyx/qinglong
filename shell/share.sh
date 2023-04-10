@@ -442,7 +442,7 @@ patch_version() {
     pnpm config set registry $NpmMirror
   fi
 
-  pnpm install -g &>/dev/null
+  pnpm install -g
 
   if [[ -f "$dir_root/db/cookie.db" ]]; then
     echo -e "检测到旧的db文件，拷贝为新db...\n"
